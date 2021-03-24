@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GPIO_Control</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.0/socket.io.min.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <button type="button" class="btn btn-info" id="lightOnBtn">Light ON</button>
+        <button type="button" class="btn btn-info" id="lightOffBtn">Light OFF</button>
+    </div>
+    <script>
+    //const socket =io();
+    $('#lightOnBtn').on('click', function() {
+        console.log("lightOn")
+    })
+    $('#lightOffBtn').on('click', function() {
+        console.log("lightOff")
+    })
+
+    const socket = io.connect();
+
+    socket.on("connect", () => {
+        console.log(socket.id);
+    });
+
+    socket.on('pi', function(data) {
+        console.log(data.msg);
+    })
+
+    setInterval(function() {
+        socket.emit('user', { 'text': '歲月如梭' });
+        console.log('emit');
+    }, 1000);
+    </script>
+</body>
+
+</html>
