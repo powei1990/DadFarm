@@ -20,9 +20,11 @@
     //const socket =io();
     $('#lightOnBtn').on('click', function() {
         console.log("lightOn")
+        socket.emit('ledon');
     })
     $('#lightOffBtn').on('click', function() {
         console.log("lightOff")
+        socket.emit('ledoff');
     })
 
     const socket = io.connect();
@@ -30,15 +32,16 @@
     socket.on("connect", () => {
         console.log(socket.id);
     });
-
+/*
     socket.on('pi', function(data) {
         console.log(data.msg);
     })
 
     setInterval(function() {
         socket.emit('user', { 'text': '歲月如梭' });
-        console.log('emit');
+       console.log('emit');
     }, 1000);
+*/
     </script>
 </body>
 

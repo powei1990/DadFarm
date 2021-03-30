@@ -1,5 +1,4 @@
 import RPi.GPIO as GPIO
-import time
 import argparse
 
 ap = argparse.ArgumentParser()
@@ -12,8 +11,12 @@ pin= args["pin"]
 print("control pin = {}".format(pin))
 print("output = {}".format(args["output"]))
 
-
+GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BOARD)
+print(GPIO.getmode())
 GPIO.setup(pin, GPIO.OUT)
 GPIO.output(pin,args["output"])
 print("GPIO output = {}".format(args["output"]))
+if args["output"]==0:
+	GPIO.cleanup()
+	print("cleanup")
