@@ -28,7 +28,7 @@ io.on('connection', (socket) => {
 
 
 function ledon(socket) {
-	var cmd = 'python ~/DadFarm/controlgpio.py -p 7 -o 1';
+	var cmd = 'python ~/DadFarm/controlgpio.py -p 11 -o 1';
 	exec(cmd, function(error, stdout, stderr) {
 		if (error != null) {
 			console.log("出錯了！" + error);
@@ -40,7 +40,7 @@ function ledon(socket) {
 }
 
 function ledoff(socket) {
-	var cmd = 'python ~/DadFarm/controlgpio.py -p 7 -o 0';
+	var cmd = 'python ~/DadFarm/controlgpio.py -p 11 -o 0';
 	exec(cmd, function(error, stdout, stderr) {
 		if (error != null) {
 			console.log("出錯了！" + error);
