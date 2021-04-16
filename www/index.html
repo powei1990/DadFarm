@@ -9,36 +9,64 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.0/socket.io.min.js"></script>
+    <style>
+    .myAlert-bottom{
+    position: fixed;
+    bottom: 5px;
+    left:2%;
+    width: 96%;
+    }
+    .alert{
+    display: none;
+}
+    </style>
 </head>
 
 <body>
     <div class="container">
         <div class="row">
             <div class="col-xs-4">
-            <button type="button" class="btn btn-info" id="lightOnBtn">Light ON</button>
+                <button type="button" class="btn btn-info" id="lightOnBtn">Light ON</button>
             </div>
             <div class="col-xs-6">
-            <button type="button" class="btn btn-info" id="lightOffBtn">Light OFF</button>
-        </div>
-        </div>
+                <button type="button" class="btn btn-info" id="lightOffBtn">Light OFF</button>
+            </div>
         </div>
     </div>
+    </div>
+    <div class="myAlert-bottom alert alert-danger">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        This alert box could indicate a dangerous or potentially negative action.
+    </div>
     <script>
-        //const socket =io();
-        $('#lightOnBtn').on('click', function () {
-            console.log("lightOn")
-            socket.emit('ledon');
-        })
-        $('#lightOffBtn').on('click', function () {
-            console.log("lightOff")
-            socket.emit('ledoff');
-        })
+    //const socket =io();
+    $('#lightOnBtn').on('click', function() {
+        console.log("lightOn")
+        socket.emit('ledon');
+        myAlertBottom(11,"開啟");
+    })
+    $('#lightOffBtn').on('click', function() {
+        console.log("lightOff")
+        socket.emit('ledoff');
+        myAlertBottom(11,"關閉");
+    })
 
-        const socket = io.connect();
+    const socket = io.connect();
 
-        socket.on("connect", () => {
-            console.log(socket.id);
-        });
+    socket.on("connect", () => {
+        console.log(socket.id);
+    });
+
+    function myAlertBottom(pingNum,isOn) {
+        console.log(pingNum,isOn)
+        $(".myAlert-bottom").text("第"+pingNum+"腳位，"+isOn)
+
+        $(".myAlert-bottom").show();
+        setTimeout(function() {
+            $(".myAlert-bottom").hide();
+        }, 2000);
+    }
+
     /*
             socket.on('pi', function(data) {
                 console.log(data.msg);
@@ -48,7 +76,8 @@
                 socket.emit('user', { 'text': '歲月如梭' });
                console.log('emit');
             }, 1000);
-        */
+    */
+
     </script>
 </body>
 
