@@ -10,15 +10,16 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.0/socket.io.min.js"></script>
     <style>
-    .myAlert-bottom{
-    position: fixed;
-    bottom: 5px;
-    left:2%;
-    width: 96%;
-    }
-    .alert{
-    display: none;
-}
+        .myAlert-bottom {
+            position: fixed;
+            bottom: 5px;
+            left: 2%;
+            width: 96%;
+        }
+        
+        .alert {
+            display: none;
+        }
     </style>
 </head>
 
@@ -33,51 +34,87 @@
             </div>
         </div>
     </div>
+
+    <div class="container streamBtns">
+        <div class="row">
+            <div class="col-xs-4">
+                <button type="button" class="btn btn-info" id="streamOnBtn">Stream ON</button>
+            </div>
+            <div class="col-xs-6">
+                <button type="button" class="btn btn-info" id="streamOffBtn">Stream OFF</button>
+            </div>
+        </div>
+    </div>
+
     </div>
     <div class="myAlert-bottom alert alert-danger">
-        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-        This alert box could indicate a dangerous or potentially negative action.
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> This alert box could indicate a dangerous or potentially negative action.
     </div>
     <script>
-    //const socket =io();
-    $('#lightOnBtn').on('click', function() {
-        console.log("lightOn")
-        socket.emit('ledon');
-        myAlertBottom(11,"開啟");
-    })
-    $('#lightOffBtn').on('click', function() {
-        console.log("lightOff")
-        socket.emit('ledoff');
-        myAlertBottom(11,"關閉");
-    })
+        //const socket =io();
+        $('#lightOnBtn').on('click', function() {
+            console.log("lightOn")
+            socket.emit('ledon');
+            myAlertBottom(11, "開啟");
+        })
+        $('#lightOffBtn').on('click', function() {
+            console.log("lightOff")
+            socket.emit('ledoff');
+            myAlertBottom(11, "關閉");
+        })
 
-    const socket = io.connect();
+        const socket = io.connect();
 
-    socket.on("connect", () => {
-        console.log(socket.id);
-    });
+        socket.on("connect", () => {
+            console.log(socket.id);
+        });
 
-    function myAlertBottom(pingNum,isOn) {
-        console.log(pingNum,isOn)
-        $(".myAlert-bottom").text("第"+pingNum+"腳位，"+isOn)
+        function myAlertBottom(pingNum, isOn) {
+            console.log(pingNum, isOn)
+            $(".myAlert-bottom").text("第" + pingNum + "腳位，" + isOn)
 
-        $(".myAlert-bottom").show();
-        setTimeout(function() {
-            $(".myAlert-bottom").hide();
-        }, 2000);
-    }
+            $(".myAlert-bottom").show();
+            setTimeout(function() {
+                $(".myAlert-bottom").hide();
+            }, 2000);
+        }
 
-    /*
-            socket.on('pi', function(data) {
-                console.log(data.msg);
-            })
+        $('#streamOnBtn').on('click', function() {
+            console.log("streamOnBtn")
+            socket.emit('streamOn');
+            $(".myAlert-bottom").text("視訊開啟")
+
+            $(".streamBtns").append(" <img src='http://192.168.1.103:8080/?action=stream' />");
+
+            $(".myAlert-bottom").show();
+            setTimeout(function() {
+                $(".myAlert-bottom").hide();
+            }, 2000);
+        })
+        $('#streamOffBtn').on('click', function() {
+            console.log("streamOffBtn")
+            socket.emit('streamOff');
+            $(".myAlert-bottom").text("視訊關閉")
+
+            $("img").remove();
+
+            $(".myAlert-bottom").show();
+            setTimeout(function() {
+                $(".myAlert-bottom").hide();
+            }, 2000);
+
+        })
+
+        /*
+                socket.on('pi', function(data) {
+                    console.log(data.msg);
+                })
     
-            setInterval(function() {
-                socket.emit('user', { 'text': '歲月如梭' });
-               console.log('emit');
-            }, 1000);
-    */
-
+                setInterval(function() {
+                    socket.emit('user', { 'text': '歲月如梭' });
+                   console.log('emit');
+                }, 1000);
+        */
     </script>
 </body>
 
