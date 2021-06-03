@@ -31,7 +31,27 @@ dht22Schema.methods.show = function() {
             }
         });
     */
+    /*
 dht22.find({}).limit(10)
+    .exec(function(err, docs) {
+        if (err || !docs) {　　
+            console.log("找不到dht22的資料！");
+        } else {
+            console.log(docs);
+        }
+    });
+    */
+    /*
+dht22.find({}).sort({ "date": -1 }).limit(10)
+    .exec(function(err, docs) {
+        if (err || !docs) {　　
+            console.log("找不到dht22的資料！");
+        } else {
+            console.log(docs);
+        }
+    });
+    */
+dht22.find({ "date": { $gte: new Date(2021, 5, 1) } }).limit(10)
     .exec(function(err, docs) {
         if (err || !docs) {　　
             console.log("找不到dht22的資料！");
