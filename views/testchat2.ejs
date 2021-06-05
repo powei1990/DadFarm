@@ -9,23 +9,58 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 </head>
+<style>
+    table,
+    th,
+    td {
+        border: 1px solid black;
+    }
+</style>
 
 <body>
     <h1>Hello</h1>
     <div>
         <canvas id="myChart"></canvas>
     </div>
-
+    <!-- 這一段是table抓資料測試
+    <table>
+        <tbody>
+            <tr>
+                <th>溫度</th>
+                <th>濕度</th>
+                <th>時間</th>
+            </tr>
+            <%
+    docs.forEach( function(d) {
+     %>
+                <tr>
+                    <td>
+                        <%= d['temperature_c'] %>
+                    </td>
+                    <td>
+                        <%= d['humidity'] %>
+                    </td>
+                    <td>
+                        <%= d['date'] %>
+                    </td>
+                </tr>
+                <% }); %>
+        </tbody>
+    </table>
+     -->
     <script>
         //要抓DB日期array，label換日期
+
         const labels = [
-            'January',
-            'February',
-            'March',
-            'April',
-            'May',
-            'June',
+            <%
+        docs.forEach( function(d) {
+     %>
+            <%= d['date'].getDate()%>,
+            <% }); %>
+
         ];
+
+
         //data換溫度
         const data = {
             labels: labels,
