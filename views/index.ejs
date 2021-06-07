@@ -128,7 +128,7 @@
             <%
         docs.forEach( function(d) {
      %>
-            <%= d['date'].getHours()%>,
+            <%= d['date'].getUTCHours()%>,
             <% }); %>
 
         ];

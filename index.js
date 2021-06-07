@@ -7,7 +7,7 @@ var exec = require('child_process').exec;
 app.set('view engine', 'ejs');
 
 app.get('/', function(req, res) {
-    dht22.find().select('temperature_c humidity date').sort({ date: -1 }).limit(6)
+    dht22.find().skip(dht22.count() - 100)
         .exec(function(err, docs) {
             if (err || !docs) {　　
                 console.log("找不到dht22的資料！");
