@@ -1,25 +1,12 @@
 const app = require('express')();
 const server = require('http').createServer(app);
 const io = require('socket.io')(server);
-var dht22 = require('./models/dht22');
+
 var exec = require('child_process').exec;
 
-app.set('view engine', 'ejs');
-
 app.get('/', function(req, res) {
-    dht22.find().select('temperature_c humidity date').sort({ date: -1 }).limit(6)
-        .exec(function(err, docs) {
-            if (err || !docs) {　　
-                console.log("找不到dht22的資料！");
-            } else {
-                console.log(docs);
-            }
-            res.render('index', { docs: docs });
-        });
-
-
+    res.sendFile(__dirname + '/www/index.html');
 })
-
 io.on('connection', (socket) => {
     console.log(socket.id);
     socket.on('user', function(data) {
@@ -28,11 +15,6 @@ io.on('connection', (socket) => {
 
     socket.on('ledon', function() {
         ledon(socket);
-        console.log("socket on ledon");
-    })
-
-    socket.on('ledoff', function() {
-        ledoff(socket);
         console.log("socket on ledon");
     })
 

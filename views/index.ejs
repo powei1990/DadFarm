@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GPIO_Control</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.0/socket.io.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+<style>
+    table,
+    th,
+    td {
+        border: 1px solid black;
+    }
+    
+    .myAlert-bottom {
+        position: fixed;
+        bottom: 5px;
+        left: 2%;
+        width: 96%;
+    }
+    
+    .alert {
+        display: none;
+    }
+</style>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-4">
+                <button type="button" class="btn btn-info" id="lightOnBtn">Light ON</button>
+            </div>
+            <div class="col-xs-6">
+                <button type="button" class="btn btn-info" id="lightOffBtn">Light OFF</button>
+            </div>
+        </div>
+    </div>
+
+    <!--
+    <div class="container streamBtns">
+        <div class="row">
+            <div class="col-xs-4">
+                <button type="button" class="btn btn-info" id="streamOnBtn">Stream ON</button>
+            </div>
+            <div class="col-xs-6">
+                <button type="button" class="btn btn-info" id="streamOffBtn">Stream OFF</button>
+            </div>
+        </div>
+    </div>
+    -->
+
+    <div class="myAlert-bottom alert alert-danger">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> This alert box could indicate a dangerous or potentially negative action.
+    </div>
+
+    <div>
+        <canvas id="myChart"></canvas>
+    </div>
+
+    <script>
+        $('#lightOnBtn').on('click', function() {
+            console.log("lightOn")
+            socket.emit('ledon');
+            myAlertBottom(11, "開啟");
+        })
+        $('#lightOffBtn').on('click', function() {
+            console.log("lightOff")
+            socket.emit('ledoff');
+            myAlertBottom(11, "關閉");
+        })
+
+        const socket = io.connect();
+
+        socket.on("connect", () => {
+            console.log(socket.id);
+        });
+
+        function myAlertBottom(pingNum, isOn) {
+            console.log(pingNum, isOn)
+            $(".myAlert-bottom").text("第" + pingNum + "腳位，" + isOn)
+
+            $(".myAlert-bottom").show();
+            setTimeout(function() {
+                $(".myAlert-bottom").hide();
+            }, 2000);
+        }
+        /*
+                $('#streamOnBtn').on('click', function() {
+                    console.log("streamOnBtn")
+                    socket.emit('streamOn');
+                    $(".myAlert-bottom").text("視訊開啟")
+
+                    $(".streamBtns").append(" <img src='http://192.168.1.103:8080/?action=stream' />");
+
+                    $(".myAlert-bottom").show();
+                    setTimeout(function() {
+                        $(".myAlert-bottom").hide();
+                    }, 2000);
+                })
+                $('#streamOffBtn').on('click', function() {
+                    console.log("streamOffBtn")
+                    socket.emit('streamOff');
+                    $(".myAlert-bottom").text("視訊關閉")
+
+                    $("img").remove();
+
+                    $(".myAlert-bottom").show();
+                    setTimeout(function() {
+                        $(".myAlert-bottom").hide();
+                    }, 2000);
+
+                })
+
+        */
+
+
+        //要抓DB日期array，label換日期
+
+        const labels = [
+            <%
+        docs.forEach( function(d) {
+     %>
+            <%= d['date'].getHours()%>,
+            <% }); %>
+
+        ];
+
+
+        //data換溫度
+        const data = {
+            labels: labels,
+            datasets: [{
+                label: 'My First dataset',
+                backgroundColor: 'rgb(255, 99, 132)',
+                borderColor: 'rgb(255, 99, 132)',
+                data: [
+                    <%docs.forEach( function(d) { %>
+                    <%= d['temperature_c']%>,
+                    <% }); %>
+                ]
+            }]
+        };
+        const config = {
+            type: 'line',
+            data,
+            options: {}
+        };
+
+
+
+        var myChart = new Chart(
+            document.getElementById('myChart'),
+            config
+        );
+    </script>
+
+</body>
+
+</html>
