@@ -40,7 +40,7 @@
 
     </div>
 
-    <!--
+    <!--視訊串流相關
     <div class="container streamBtns">
         <div class="row">
             <div class="col-xs-4">
@@ -62,12 +62,12 @@
     </div>
 
     <script>
-        $('#lightOnBtn').on('click', function() {
+        $('#btnradio1').on('click', function() {
             console.log("lightOn")
             socket.emit('ledon');
             myAlertBottom(11, "開啟");
         })
-        $('#lightOffBtn').on('click', function() {
+        $('#btnradio2').on('click', function() {
             console.log("lightOff")
             socket.emit('ledoff');
             myAlertBottom(11, "關閉");
@@ -88,7 +88,7 @@
                 $(".myAlert-bottom").hide();
             }, 2000);
         }
-        /*
+        /*視訊串流相關
                 $('#streamOnBtn').on('click', function() {
                     console.log("streamOnBtn")
                     socket.emit('streamOn');
@@ -119,43 +119,44 @@
 
 
         //要抓DB日期array，label換日期
-
-        const labels = [
-            <%
-        docs.forEach( function(d) {
-     %>
-            <%= d['date'].getUTCHours()%>,
-            <% }); %>
-
-        ];
-
-
-        //data換溫度
-        const data = {
-            labels: labels,
-            datasets: [{
-                label: 'My First dataset',
-                backgroundColor: 'rgb(255, 99, 132)',
-                borderColor: 'rgb(255, 99, 132)',
-                data: [
-                    <%docs.forEach( function(d) { %>
-                    <%= d['temperature_c']%>,
+        /*
+                const labels = [
+                    <%
+                docs.forEach( function(d) {
+             %>
+                    <%= d['date'].getUTCHours()%>,
                     <% }); %>
-                ]
-            }]
-        };
-        const config = {
-            type: 'line',
-            data,
-            options: {}
-        };
+
+                ];
+
+
+                //data換溫度
+                const data = {
+                    labels: labels,
+                    datasets: [{
+                        label: 'My First dataset',
+                        backgroundColor: 'rgb(255, 99, 132)',
+                        borderColor: 'rgb(255, 99, 132)',
+                        data: [
+                            <%docs.forEach( function(d) { %>
+                            <%= d['temperature_c']%>,
+                            <% }); %>
+                        ]
+                    }]
+                };
+                const config = {
+                    type: 'line',
+                    data,
+                    options: {}
+                };
 
 
 
-        var myChart = new Chart(
-            document.getElementById('myChart'),
-            config
-        );
+                var myChart = new Chart(
+                    document.getElementById('myChart'),
+                    config
+                );
+            */
     </script>
 
 </body>
