@@ -5,8 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GPIO_Control</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.0/socket.io.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -31,16 +33,18 @@
 </style>
 
 <body>
-    <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-        <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked>
-        <label class="btn btn-outline-primary" for="btnradio1">熱水器 開</label>
-
-        <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
-        <label class="btn btn-outline-primary" for="btnradio2">熱水器 關</label>
-
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-4">
+                <button type="button" class="btn btn-info" id="lightOnBtn">Light ON</button>
+            </div>
+            <div class="col-xs-6">
+                <button type="button" class="btn btn-info" id="lightOffBtn">Light OFF</button>
+            </div>
+        </div>
     </div>
 
-    <!--視訊串流相關
+    <!--
     <div class="container streamBtns">
         <div class="row">
             <div class="col-xs-4">
@@ -62,12 +66,12 @@
     </div>
 
     <script>
-        $('#btnradio1').on('click', function() {
+        $('#lightOnBtn').on('click', function() {
             console.log("lightOn")
             socket.emit('ledon');
             myAlertBottom(11, "開啟");
         })
-        $('#btnradio2').on('click', function() {
+        $('#lightOffBtn').on('click', function() {
             console.log("lightOff")
             socket.emit('ledoff');
             myAlertBottom(11, "關閉");
@@ -88,7 +92,7 @@
                 $(".myAlert-bottom").hide();
             }, 2000);
         }
-        /*視訊串流相關
+        /*
                 $('#streamOnBtn').on('click', function() {
                     console.log("streamOnBtn")
                     socket.emit('streamOn');
@@ -119,44 +123,43 @@
 
 
         //要抓DB日期array，label換日期
-        /*
-                const labels = [
-                    <%
-                docs.forEach( function(d) {
-             %>
-                    <%= d['date'].getUTCHours()%>,
+
+        const labels = [
+            <%
+        docs.forEach( function(d) {
+     %>
+            <%= d['date'].getUTCHours()%>,
+            <% }); %>
+
+        ];
+
+
+        //data換溫度
+        const data = {
+            labels: labels,
+            datasets: [{
+                label: 'My First dataset',
+                backgroundColor: 'rgb(255, 99, 132)',
+                borderColor: 'rgb(255, 99, 132)',
+                data: [
+                    <%docs.forEach( function(d) { %>
+                    <%= d['temperature_c']%>,
                     <% }); %>
-
-                ];
-
-
-                //data換溫度
-                const data = {
-                    labels: labels,
-                    datasets: [{
-                        label: 'My First dataset',
-                        backgroundColor: 'rgb(255, 99, 132)',
-                        borderColor: 'rgb(255, 99, 132)',
-                        data: [
-                            <%docs.forEach( function(d) { %>
-                            <%= d['temperature_c']%>,
-                            <% }); %>
-                        ]
-                    }]
-                };
-                const config = {
-                    type: 'line',
-                    data,
-                    options: {}
-                };
+                ]
+            }]
+        };
+        const config = {
+            type: 'line',
+            data,
+            options: {}
+        };
 
 
 
-                var myChart = new Chart(
-                    document.getElementById('myChart'),
-                    config
-                );
-            */
+        var myChart = new Chart(
+            document.getElementById('myChart'),
+            config
+        );
     </script>
 
 </body>

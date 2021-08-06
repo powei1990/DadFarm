@@ -5,10 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GPIO_Control</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.0/socket.io.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -33,29 +31,14 @@
 </style>
 
 <body>
-    <div class="container">
-        <div class="row">
-            <div class="col-xs-4">
-                <button type="button" class="btn btn-info" id="lightOnBtn">Light ON</button>
-            </div>
-            <div class="col-xs-6">
-                <button type="button" class="btn btn-info" id="lightOffBtn">Light OFF</button>
-            </div>
-        </div>
-    </div>
+    <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+        <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off">
+        <label class="btn btn-outline-primary" for="btnradio1">熱水器 開</label>
 
-    <!--
-    <div class="container streamBtns">
-        <div class="row">
-            <div class="col-xs-4">
-                <button type="button" class="btn btn-info" id="streamOnBtn">Stream ON</button>
-            </div>
-            <div class="col-xs-6">
-                <button type="button" class="btn btn-info" id="streamOffBtn">Stream OFF</button>
-            </div>
-        </div>
+        <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
+        <label class="btn btn-outline-primary" for="btnradio2">熱水器 關</label>
+
     </div>
-    -->
 
     <div class="myAlert-bottom alert alert-danger">
         <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> This alert box could indicate a dangerous or potentially negative action.
@@ -66,12 +49,12 @@
     </div>
 
     <script>
-        $('#lightOnBtn').on('click', function() {
+        $('#btnradio1').on('click', function() {
             console.log("lightOn")
             socket.emit('ledon');
             myAlertBottom(11, "開啟");
         })
-        $('#lightOffBtn').on('click', function() {
+        $('#btnradio2').on('click', function() {
             console.log("lightOff")
             socket.emit('ledoff');
             myAlertBottom(11, "關閉");
@@ -92,42 +75,20 @@
                 $(".myAlert-bottom").hide();
             }, 2000);
         }
-        /*
-                $('#streamOnBtn').on('click', function() {
-                    console.log("streamOnBtn")
-                    socket.emit('streamOn');
-                    $(".myAlert-bottom").text("視訊開啟")
 
-                    $(".streamBtns").append(" <img src='http://192.168.1.103:8080/?action=stream' />");
-
-                    $(".myAlert-bottom").show();
-                    setTimeout(function() {
-                        $(".myAlert-bottom").hide();
-                    }, 2000);
-                })
-                $('#streamOffBtn').on('click', function() {
-                    console.log("streamOffBtn")
-                    socket.emit('streamOff');
-                    $(".myAlert-bottom").text("視訊關閉")
-
-                    $("img").remove();
-
-                    $(".myAlert-bottom").show();
-                    setTimeout(function() {
-                        $(".myAlert-bottom").hide();
-                    }, 2000);
-
-                })
-
-        */
+        //檢查狀態
+        $(document).ready(function() {
+            //$('#btnradio2').prop('checked', true);
+            // console.log();
+        });
 
 
         //要抓DB日期array，label換日期
 
         const labels = [
             <%
-        docs.forEach( function(d) {
-     %>
+                docs.forEach( function(d) {
+             %>
             <%= d['date'].getUTCHours()%>,
             <% }); %>
 
