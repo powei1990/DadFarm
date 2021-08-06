@@ -10,15 +10,17 @@ var LED = new Gpio(17, 'out');
 app.set('view engine', 'ejs');
 
 app.get('/', function(req, res) {
-    //var isLedOn = LED.readSync();
+    
     dht22.find().skip(dht22.count() - 100)
         .exec(function(err, docs) {
             if (err || !docs) {
                 console.log("找不到dht22的資料！");
             } else {
                 console.log("Pass DB data success!! ");
+                var isLedOn = LED.readSync();
+                console.log(isLedOn);
             }
-            res.render('index', { docs: docs });
+            res.render('index', { docs: docs ,isLedOn:isLedOn});
         });
 
 

@@ -78,8 +78,15 @@
 
         //檢查狀態
         $(document).ready(function() {
-            //$('#btnradio2').prop('checked', true);
-            // console.log();
+
+
+            if (<%=isLedOn%> != 1) {
+                $('#btnradio2').prop('checked', true);
+
+
+            } else {
+                $('#btnradio1').prop('checked', true);
+            }
         });
 
 
