@@ -28,10 +28,17 @@
     .alert {
         display: none;
     }
+    
+    .chart-container {
+        position: relative;
+        margin: auto;
+        height: 80vh;
+        width: 80vw;
+    }
 </style>
 
 <body>
-    <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+    <div class="btn-group m-3" role="group" aria-label="Basic radio toggle button group">
         <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off">
         <label class="btn btn-outline-primary" for="btnradio1">熱水器 開</label>
 
@@ -44,7 +51,7 @@
         <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> This alert box could indicate a dangerous or potentially negative action.
     </div>
 
-    <div>
+    <div class="chart-container">
         <canvas id="myChart"></canvas>
     </div>
 
@@ -106,7 +113,7 @@
         const data = {
             labels: labels,
             datasets: [{
-                label: 'My First dataset',
+                label: '室內溫度',
                 backgroundColor: 'rgb(255, 99, 132)',
                 borderColor: 'rgb(255, 99, 132)',
                 data: [
