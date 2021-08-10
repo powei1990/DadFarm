@@ -105,6 +105,7 @@
 
         $("#timeset").change(function() {
             alert("Handler for .change() called.");
+            socket.emit('setTime', this.value);
         });
 
         function myAlertBottom(pingNum, isOn) {
